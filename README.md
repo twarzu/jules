@@ -44,8 +44,7 @@ This script migrates a FogBugz Wiki to Atlassian Confluence. It uses the FogBugz
 2.  Open the `config.ini` file and fill in the required values:
     - `[fogbugz]`
         - `base_url`: The base URL of your FogBugz instance (e.g., `https://your-company.fogbugz.com`)
-        - `email`: The email of the user with API access
-        - `password`: The password of the user with API access
+        - `token`: The API token of the user with API access
     - `[confluence]`
         - `base_url`: The base URL of your Confluence instance (e.g., `https://your-company.atlassian.net/wiki`)
         - `username`: The username of the user with API access

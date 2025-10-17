@@ -13,8 +13,7 @@ class TestMigration(unittest.TestCase):
         mock_config = MagicMock()
         mock_config.get.side_effect = lambda section, key: {
             ('fogbugz', 'base_url'): 'http://fake-fogbugz.com',
-            ('fogbugz', 'email'): 'test@example.com',
-            ('fogbugz', 'password'): 'password',
+            ('fogbugz', 'token'): 'fb_token',
             ('confluence', 'base_url'): 'http://fake-confluence.com',
             ('confluence', 'username'): 'user',
             ('confluence', 'api_token'): 'token',
@@ -24,15 +23,11 @@ class TestMigration(unittest.TestCase):
 
         # --- Mock FogBugz API ---
         mock_fb_instance = mock_fogbugz_client.return_value
-        mock_fb_instance.get_wiki_pages.return_value = [
-            {'id': '1', 'title': 'Page 1', 'parent_id': '0'},
-            {'id': '2', 'title': 'Page 2', 'parent_id': '1'}
-        ]
-        mock_fb_instance.get_wiki_page_content.side_effect = [
-            '<html><body><p>Page 1 content</p><a href="default.asp?W2">Link to Page 2</a></body></html>',
-            '<html><body><p>Page 2 content</p><img src="default.asp?pg=pgDownload&pgType=pgWikiAttachment&ixAttachment=11&sFileName=test.png"></body></html>',
-            '<html><body><p>Page 1 content</p><a href="default.asp?W2">Link to Page 2</a></body></html>',
-            '<html><body><p>Page 2 content</p><img src="default.asp?pg=pgDownload&pgType=pgWikiAttachment&ixAttachment=11&sFileName=test.png"></body></html>'
+        mock_fb_instance.list_wikis.return_value = [{'id': '1', 'title': 'Test Wiki'}]
+        mock_fb_instance.list_articles.return_value = [{'id': '1'}, {'id': '2'}]
+        mock_fb_instance.view_article.side_effect = [
+            {'id': '1', 'title': 'Page 1', 'content': '<html><body><p>Page 1 content</p><a href="default.asp?W2">Link to Page 2</a></body></html>', 'parent_id': '0'},
+            {'id': '2', 'title': 'Page 2', 'content': '<html><body><p>Page 2 content</p><img src="default.asp?pg=pgDownload&pgType=pgWikiAttachment&ixAttachment=11&sFileName=test.png"></body></html>', 'parent_id': '1'}
         ]
 
         # --- Mock Confluence API ---
@@ -51,7 +46,7 @@ class TestMigration(unittest.TestCase):
 
         # --- Assertions ---
         # Assert that the clients were initialized correctly
-        mock_fogbugz_client.assert_called_with('http://fake-fogbugz.com', 'test@example.com', 'password')
+        mock_fogbugz_client.assert_called_with('http://fake-fogbugz.com', 'fb_token')
         mock_confluence_client.assert_called_with('http://fake-confluence.com', 'user', 'token')
 
         # Assert that pages were created
