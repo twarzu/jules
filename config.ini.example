@@ -1,0 +1,13 @@
+[fogbugz]
+base_url = YOUR_FOGBUGZ_URL
+email = YOUR_FOGBUGZ_EMAIL
+password = YOUR_FOGBUGZ_PASSWORD
+
+[confluence]
+base_url = YOUR_CONFLUENCE_URL
+username = YOUR_CONFLUENCE_USERNAME
+api_token = YOUR_CONFLUENCE_API_TOKEN
+space_key = YOUR_CONFLUENCE_SPACE_KEY
+
+[migration]
+download_dir = downloads
