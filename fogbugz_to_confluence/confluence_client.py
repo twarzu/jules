@@ -2,30 +2,33 @@ import requests
 import json
 
 class ConfluenceClient:
-    def __init__(self, base_url, username, api_token):
+    def __init__(self, base_url, api_token):
         self.base_url = base_url.rstrip('/')
-        self.auth = (username, api_token)
         self.headers = {
             "Content-Type": "application/json",
-            "Accept": "application/json"
+            "Accept": "application/json",
+            "Authorization": f"Bearer {api_token}"
         }
 
     def _post(self, endpoint, data):
         url = f"{self.base_url}/rest/api/{endpoint}"
-        response = requests.post(url, headers=self.headers, auth=self.auth, data=json.dumps(data))
+        response = requests.post(url, headers=self.headers, data=json.dumps(data))
         response.raise_for_status()
         return response.json()
 
     def _put(self, endpoint, data):
         url = f"{self.base_url}/rest/api/{endpoint}"
-        response = requests.put(url, headers=self.headers, auth=self.auth, data=json.dumps(data))
+        response = requests.put(url, headers=self.headers, data=json.dumps(data))
         response.raise_for_status()
         return response.json()
 
     def _post_multipart(self, endpoint, files):
         url = f"{self.base_url}/rest/api/{endpoint}"
-        headers = {"X-Atlassian-Token": "nocheck"}
-        response = requests.post(url, headers=headers, auth=self.auth, files=files)
+        headers = {
+            "X-Atlassian-Token": "nocheck",
+            "Authorization": self.headers['Authorization']
+        }
+        response = requests.post(url, headers=headers, files=files)
         response.raise_for_status()
         return response.json()
 
@@ -59,7 +62,7 @@ class ConfluenceClient:
     def get_page(self, page_id):
         endpoint = f"content/{page_id}"
         url = f"{self.base_url}/rest/api/{endpoint}"
-        response = requests.get(url, headers=self.headers, auth=self.auth)
+        response = requests.get(url, headers=self.headers)
         response.raise_for_status()
         return response.json()
 

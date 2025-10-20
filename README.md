@@ -47,7 +47,6 @@ This script migrates a FogBugz Wiki to Atlassian Confluence. It uses the FogBugz
         - `token`: The API token of the user with API access
     - `[confluence]`
         - `base_url`: The base URL of your Confluence instance (e.g., `https://your-company.atlassian.net/wiki`)
-        - `username`: The username of the user with API access
         - `api_token`: The API token of the user with API access
         - `space_key`: The key of the Confluence space where the pages will be migrated
     - `[migration]`

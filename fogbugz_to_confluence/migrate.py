@@ -18,7 +18,6 @@ def migrate(config):
     )
     conf_client = ConfluenceClient(
         config.get('confluence', 'base_url'),
-        config.get('confluence', 'username'),
         config.get('confluence', 'api_token')
     )
 

@@ -4,7 +4,6 @@ token = YOUR_FOGBUGZ_TOKEN
 
 [confluence]
 base_url = YOUR_CONFLUENCE_URL
-username = YOUR_CONFLUENCE_USERNAME
 api_token = YOUR_CONFLUENCE_API_TOKEN
 space_key = YOUR_CONFLUENCE_SPACE_KEY
 

@@ -15,7 +15,6 @@ class TestMigration(unittest.TestCase):
             ('fogbugz', 'base_url'): 'http://fake-fogbugz.com',
             ('fogbugz', 'token'): 'fb_token',
             ('confluence', 'base_url'): 'http://fake-confluence.com',
-            ('confluence', 'username'): 'user',
             ('confluence', 'api_token'): 'token',
             ('confluence', 'space_key'): 'TEST',
             ('migration', 'download_dir'): 'test_downloads'
@@ -47,7 +46,7 @@ class TestMigration(unittest.TestCase):
         # --- Assertions ---
         # Assert that the clients were initialized correctly
         mock_fogbugz_client.assert_called_with('http://fake-fogbugz.com', 'fb_token')
-        mock_confluence_client.assert_called_with('http://fake-confluence.com', 'user', 'token')
+        mock_confluence_client.assert_called_with('http://fake-confluence.com', 'token')
 
         # Assert that pages were created
         self.assertEqual(mock_conf_instance.create_page.call_count, 2)
